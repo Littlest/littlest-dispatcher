@@ -108,4 +108,17 @@ describe('Store', function () {
       }).to.throw();
     });
   });
+
+  describe('toObject', function () {
+    it('should return an Object', function () {
+      expect(store.toObject()).to.exist;
+      expect(store.toObject()).to.be.an('object');
+    });
+
+    it('should return an Object with the same keys:values', function () {
+      expect(store.toObject()).to.deep.equal({});
+      store.define('foo', 'bar');
+      expect(store.toObject()).to.deep.equal({ foo: 'bar' });
+    });
+  });
 });
