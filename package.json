@@ -4,11 +4,15 @@
   "description": "An attempt at an async-friendly, isomorphic Flux dispatcher with as little internal code as possible.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test"
   },
   "author": "Michael Schoonmaker <michael.r.schoonmaker@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "when": "~3.4.4"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.21.4"
   }
 }
