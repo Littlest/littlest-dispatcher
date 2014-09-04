@@ -125,28 +125,36 @@ describe('Store', function () {
 
     it('should return an Object with the same keys:values', function () {
       expect(store.toObject()).to.deep.equal({});
-      store.define('foo', 'bar');
-      expect(store.toObject()).to.deep.equal({ foo: 'bar' });
+      store.define(name, value);
+
+      var expected = {};
+      expected[name] = value;
+
+      expect(store.toObject()).to.deep.equal(expected);
     });
   });
 
   describe('JSON', function () {
     it('should contain only all defined fields', function () {
-      store.define('foo', 'bar');
-      expect(JSON.stringify(store)).to.equal('{"foo":"bar"}');
+      store.define(name, value);
+
+      var expected = {};
+      expected[name] = value;
+
+      expect(JSON.stringify(store)).to.equal(JSON.stringify(expected));
     });
   });
 
   describe('fromObject', function () {
     it('should set all cached fields', function () {
-      store.define('foo', 'bar');
+      store.define(name, value);
       var obj = store.toObject();
 
-      store.foo = null;
+      store[name] = null;
       store.fromObject(obj);
 
-      expect('foo' in store);
-      expect(store.foo).to.equal('bar');
+      expect(name in store);
+      expect(store[name]).to.equal(value);
     });
 
     it('should not fail with no Object', function () {
@@ -162,7 +170,10 @@ describe('Store', function () {
 
     it('should fail with extraneous fields', function () {
       expect(function () {
-        store.fromObject({ foo: 'bar' });
+        var obj = {};
+        obj[name] = value;
+
+        store.fromObject(obj);
       }).to.throw();
     });
   });
