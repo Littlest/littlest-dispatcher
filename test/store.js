@@ -136,4 +136,34 @@ describe('Store', function () {
       expect(JSON.stringify(store)).to.equal('{"foo":"bar"}');
     });
   });
+
+  describe('fromObject', function () {
+    it('should set all cached fields', function () {
+      store.define('foo', 'bar');
+      var obj = store.toObject();
+
+      store.foo = null;
+      store.fromObject(obj);
+
+      expect('foo' in store);
+      expect(store.foo).to.equal('bar');
+    });
+
+    it('should not fail with no Object', function () {
+      store.fromObject();
+      store.fromObject(null);
+    });
+
+    it('should fail with non-Object', function () {
+      expect(function () {
+        store.fromObject(42);
+      }).to.throw();
+    });
+
+    it('should fail with extraneous fields', function () {
+      expect(function () {
+        store.fromObject({ foo: 'bar' });
+      }).to.throw();
+    });
+  });
 });
