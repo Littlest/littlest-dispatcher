@@ -34,6 +34,14 @@ describe('Store', function () {
       store.define(name, value);
       setImmediate(done);
     });
+
+    it('should fail if the property is already defined', function () {
+      store.define(name, value);
+
+      expect(function () {
+        store.define(name, value);
+      }).to.throw();
+    });
   });
 
   describe('field', function () {
