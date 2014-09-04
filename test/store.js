@@ -121,4 +121,11 @@ describe('Store', function () {
       expect(store.toObject()).to.deep.equal({ foo: 'bar' });
     });
   });
+
+  describe('JSON', function () {
+    it('should contain only all defined fields', function () {
+      store.define('foo', 'bar');
+      expect(JSON.stringify(store)).to.equal('{"foo":"bar"}');
+    });
+  });
 });
