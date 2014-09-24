@@ -167,14 +167,5 @@ describe('Store', function () {
         store.fromObject(42);
       }).to.throw();
     });
-
-    it('should fail with extraneous fields', function () {
-      expect(function () {
-        var obj = {};
-        obj[name] = value;
-
-        store.fromObject(obj);
-      }).to.throw();
-    });
   });
 });
