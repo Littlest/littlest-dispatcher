@@ -26,21 +26,20 @@ describe('Store', function () {
       expect(store[name]).to.deep.equal(value);
     });
 
-    it('should not fire a change event', function (done) {
+    it('should fire a change event', function (done) {
       store.on('change', function () {
-        throw new Error('Unexpected change');
+        done();
       });
 
       store.define(name, value);
-      setImmediate(done);
     });
 
-    it('should fail if the property is already defined', function () {
+    it('should not fail if the property is already defined', function () {
       store.define(name, value);
 
       expect(function () {
         store.define(name, value);
-      }).to.throw();
+      }).to.not.throw();
     });
   });
 
