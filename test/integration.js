@@ -16,6 +16,7 @@ describe('Integration', function () {
     expect(store.state).to.equal('splash');
 
     store.on('change:state', function (state) {
+      expect(state).to.equal('login');
       expect(store.state).to.equal('login');
       done();
     });
