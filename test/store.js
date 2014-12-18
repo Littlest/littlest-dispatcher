@@ -156,6 +156,17 @@ describe('Store', function () {
       expect(store[name]).to.equal(value);
     });
 
+    it('should define missing fields', function () {
+      store.define(name, value);
+
+      var newStore = new Store();
+
+      newStore.fromObject(store.toObject());
+
+      expect(name in newStore);
+      expect(newStore[name]).to.equal(value);
+    });
+
     it('should not fail with no Object', function () {
       store.fromObject();
       store.fromObject(null);
