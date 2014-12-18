@@ -106,7 +106,8 @@ describe('Action', function () {
       var message = 'Belgium!';
 
       dispatcher.register(name + ':failed', function (reason) {
-        expect(reason).to.equal(message);
+        expect(reason).to.be.an.instanceof(Error);
+        expect(reason).to.have.property('message', message);
         done();
       });
 
