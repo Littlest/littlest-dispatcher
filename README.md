@@ -1,30 +1,29 @@
 # Littlest Dispatcher
 
-An attempt at an async-friendly, isomorphic Flux dispatcher with as little
-internal code as possible.
+An async-friendly, isomorphic [Flux][flux] library including implementations
+of a Dispatcher, Actions, and Stores. _Part of the [Littlest][littlest] family._
 
-## License
+## Philosophy
 
-```
-The MIT License (MIT)
+- Configuration over Convention
+- Simple modules
+- Small API surface area
 
-Copyright (c) 2014 Faithlife Corp.
+## Features
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+- Serializable Stores
+- Promise-based Actions (with automatic event dispatch)
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## Usage
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+For an example app that doubles as a great starting point for Littlest Isomorph
+projects, take a look at [the Yeoman Generator][generator].
+
+## Alternatives
+
+- [Dispatchr][dispatchr]: Another isomorphic dispatcher implementation by Yahoo.
+
+[flux]: http://facebook.github.io/flux/docs/overview.html
+[littlest]: https://github.com/Littlest
+[generator]: https://github.com/Schoonology/generator-littlest-isomorph
+[dispatchr]: https://github.com/yahoo/dispatchr
