@@ -9,6 +9,7 @@
   "author": "Michael Schoonmaker <michael.r.schoonmaker@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "eventemitter2": "~0.4.14",
     "when": "~3.4.4"
   },
   "devDependencies": {
