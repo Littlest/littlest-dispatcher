@@ -1,6 +1,6 @@
 {
   "name": "littlest-dispatcher",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "An attempt at an async-friendly, isomorphic Flux dispatcher with as little internal code as possible.",
   "main": "lib/index.js",
   "scripts": {
