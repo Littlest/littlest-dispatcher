@@ -9,32 +9,53 @@ describe('Store', function () {
   var value = { foo: 'bar' };
   var store;
 
+
   beforeEach(function () {
     store = new Store();
   });
 
+
+  describe('get', function () {
+    it('should return undefined for properties that have not been set', function () {
+      expect(store.get(name)).to.equal(undefined)
+    })
+
+    it('should return the property when set', function () {
+      store.set(name, value)
+
+      expect(store.get(name)).to.deep.equal(value)
+    })
+  })
+
   describe('define', function () {
     it('should create a new property on the Store', function () {
-      expect(name in store).to.equal(false);
+      expect(store.has(name)).to.equal(false);
       store.define(name);
-      expect(name in store).to.equal(true);
+      expect(store.has(name)).to.equal(true);
     });
 
-    it('should accept an initial value', function () {
-      expect(store[name]).to.equal(undefined);
+    it('should accept a value', function () {
+      expect(store.get(name)).to.equal(undefined);
       store.define(name, value);
-      expect(store[name]).to.deep.equal(value);
+      expect(store.get(name)).to.deep.equal(value);
     });
 
-    it('should fire a change event', function (done) {
+    it('should not fire a change event', function (done) {
+      var firedChangeEvent = false;
+
       store.on('change', function () {
-        done();
+        firedChangeEvent = true;
       });
 
+      setTimeout(function () {
+        expect(firedChangeEvent).to.equal(false);
+        done();
+       }, 5);
+
       store.define(name, value);
     });
 
-    it('should not fail if the property is already defined', function () {
+    it('should not fail if the property is already set', function () {
       store.define(name, value);
 
       expect(function () {
@@ -43,29 +64,54 @@ describe('Store', function () {
     });
   });
 
-  describe('field', function () {
-    it('should fire a change event when set', function (done) {
-      store.define(name);
 
-      store.on('change', function (arg) {
-        expect(store[name]).to.deep.equal(value);
-        expect(arg).to.equal(store);
-        done();
-      });
-
-      store[name] = value;
+  describe('set', function () {
+    it('should create a new property on the Store', function () {
+      expect(store.has(name)).to.equal(false);
+      store.set(name);
+      expect(store.has(name)).to.equal(true);
     });
 
-    it('should fire a change:name event when set', function (done) {
-      store.define(name);
+    it('should accept a value', function () {
+      expect(store.get(name)).to.equal(undefined);
+      store.set(name, value);
+      expect(store.get(name)).to.deep.equal(value);
+    });
 
-      store.on('change:' + name, function (arg) {
-        expect(store[name]).to.deep.equal(value);
-        expect(arg).to.deep.equal(value);
+    it('should fire a change event', function (done) {
+      store.on('change', function () {
         done();
       });
 
-      store[name] = value;
+      store.set(name, value);
+    });
+
+    it('should not fail if the property is already set', function () {
+      store.set(name, value);
+
+      expect(function () {
+        store.set(name, value);
+      }).to.not.throw();
+    });
+  });
+
+  describe('update', function () {
+    it('should change the store value', function () {
+      store.set(name, { foo: 'bar' });
+      store.update(name, function (x) { x.baz = true })
+
+      expect(store.get(name)).to.deep.equal({
+        foo: 'bar',
+        baz: true
+      });
+    });
+
+    it('should fire a change event', function (done) {
+      store.on('change', function () {
+        done();
+      });
+
+      store.update(name, function () {});
     });
   });
 
@@ -81,7 +127,7 @@ describe('Store', function () {
 
       var store = new Store(props);
 
-      expect(name in store).to.equal(true);
+      expect(store.has(name)).to.equal(true);
     });
   });
 
@@ -124,7 +170,7 @@ describe('Store', function () {
 
     it('should return an Object with the same keys:values', function () {
       expect(store.toObject()).to.deep.equal({});
-      store.define(name, value);
+      store.set(name, value);
 
       var expected = {};
       expected[name] = value;
@@ -135,7 +181,7 @@ describe('Store', function () {
 
   describe('JSON', function () {
     it('should contain only all defined fields', function () {
-      store.define(name, value);
+      store.set(name, value);
 
       var expected = {};
       expected[name] = value;
@@ -146,25 +192,25 @@ describe('Store', function () {
 
   describe('fromObject', function () {
     it('should set all cached fields', function () {
-      store.define(name, value);
+      store.set(name, value);
       var obj = store.toObject();
 
-      store[name] = null;
+      store.set(name, null);
       store.fromObject(obj);
 
-      expect(name in store);
-      expect(store[name]).to.equal(value);
+      expect(store.has(name));
+      expect(store.get(name)).to.equal(value);
     });
 
     it('should define missing fields', function () {
-      store.define(name, value);
+      store.set(name, value);
 
       var newStore = new Store();
 
       newStore.fromObject(store.toObject());
 
-      expect(name in newStore);
-      expect(newStore[name]).to.equal(value);
+      expect(newStore.has(name));
+      expect(newStore.get(name)).to.equal(value);
     });
 
     it('should not fail with no Object', function () {

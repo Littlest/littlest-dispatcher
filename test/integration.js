@@ -10,14 +10,14 @@ describe('Integration', function () {
     var store = dispatcher.createStore()
       .define('state', 'splash')
       .handle('navigate:succeeded', function (state) {
-        this.state = state;
+        this.set('state', state);
       });
 
-    expect(store.state).to.equal('splash');
+    expect(store.get('state')).to.equal('splash');
 
     store.on('change:state', function (state) {
       expect(state).to.equal('login');
-      expect(store.state).to.equal('login');
+      expect(store.get('state')).to.equal('login');
       done();
     });
 
